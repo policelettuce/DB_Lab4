@@ -1,0 +1,97 @@
+CREATE TABLE s311759.Device_type(
+	id SERIAL PRIMARY KEY, 
+	name VARCHAR(30) NOT NULL, 
+	usage TEXT NOT NULL
+);
+CREATE TABLE s311759.Device(
+	id SERIAL PRIMARY KEY, 
+	type_id INTEGER REFERENCES s311759.Device_type NOT NULL, 
+	status VARCHAR(20) NOT NULL, 
+	description TEXT NOT NULL
+);
+CREATE TABLE s311759.Location(
+	id SERIAL PRIMARY KEY, 
+	name VARCHAR(40) NOT NULL, 
+	is_truman_here BOOLEAN NOT NULL
+);
+CREATE TABLE s311759.Devices_on_locations(
+	device_id INTEGER REFERENCES s311759.Device NOT NULL, 
+	location_id INTEGER REFERENCES s311759.Location NOT NULL,
+	CONSTRAINT PK_devices_on_locs PRIMARY KEY (device_id, location_id)
+);
+CREATE TABLE s311759.Weather(
+	id SERIAL PRIMARY KEY, 
+	temperature INTEGER NOT NULL, 
+	precipitation INTEGER NOT NULL, 
+	wind_speed INTEGER NOT NULL, 
+	wind_direction VARCHAR(10) NOT NULL
+);
+CREATE TABLE s311759.Daylight_cycle(
+	id SERIAL PRIMARY KEY, 
+	daytime TIME NOT NULL
+);
+CREATE TABLE s311759.Human(
+	id SERIAL PRIMARY KEY, 
+	full_name VARCHAR(50) NOT NULL, 
+	status VARCHAR(20) NOT NULL
+);
+CREATE TABLE s311759.Vacations(
+	human_id INTEGER REFERENCES s311759.Human NOT NULL, 
+	type VARCHAR(10) NOT NULL, 
+	vacation_start DATE NOT NULL, 
+	vacation_end DATE NOT NULL,
+	CONSTRAINT valid_vacation_dates CHECK (vacation_end > vacation_start)
+);
+CREATE TABLE s311759.Job(
+	id SERIAL PRIMARY KEY, 
+	title VARCHAR(40) UNIQUE NOT NULL, 
+	description TEXT NOT NULL, 
+	salary INTEGER NOT NULL
+);
+CREATE TABLE s311759.Actor_route(
+	id SERIAL PRIMARY KEY, 
+	name VARCHAR(40) NOT NULL, 
+	description TEXT NOT NULL
+);
+CREATE TABLE s311759.Routes_of_actors(
+	route_id INTEGER REFERENCES s311759.Actor_route NOT NULL, 
+	actor_id INTEGER REFERENCES s311759.Job NOT NULL,
+	CONSTRAINT PK_Routes_of_actors PRIMARY KEY (route_id, actor_id)
+);
+CREATE TABLE s311759.Human_employment(
+	id SERIAL PRIMARY KEY, 
+	human_id INTEGER REFERENCES s311759.Human NOT NULL, 
+	job_id INTEGER REFERENCES s311759.Job NOT NULL, 
+	workday_start TIME NOT NULL, 
+	workday_end TIME NOT NULL, 
+	contract_start DATE NOT NULL, 
+	contract_end DATE NOT NULL
+);
+CREATE TABLE s311759.Scenario(
+	id SERIAL PRIMARY KEY, 
+	name VARCHAR(50) UNIQUE NOT NULL, 
+	description TEXT NOT NULL, 
+	location_id INTEGER REFERENCES s311759.Location NOT NULL, 
+	daylight_cycle_id INTEGER REFERENCES s311759.Daylight_cycle NOT NULL, 
+	weather_id INTEGER REFERENCES s311759.Weather NOT NULL, 
+	is_approved BOOLEAN NOT NULL
+);
+CREATE TABLE s311759.Scenario_state(
+	id SERIAL PRIMARY KEY, 
+	time_start TIMESTAMP NOT NULL, 
+	time_finish TIMESTAMP NOT NULL, 
+	is_executed BOOLEAN NOT NULL, 
+	is_edited_on_air BOOLEAN NOT NULL
+);
+CREATE TABLE s311759.Scenario_schedule(
+	scenario_id INTEGER REFERENCES s311759.Scenario NOT NULL, 
+	state_id INTEGER REFERENCES s311759.Scenario_state NOT NULL,
+	CONSTRAINT PK_Scenario_schedule PRIMARY KEY (scenario_id, state_id)
+);
+CREATE TABLE s311759.Jobs_in_scenario(
+	id SERIAL PRIMARY KEY, 
+	scenario_id INTEGER REFERENCES s311759.Scenario NOT NULL, 
+	job_id INTEGER REFERENCES s311759.Job NOT NULL, 
+	human_id INTEGER REFERENCES s311759.Human NOT NULL, 
+	description TEXT NOT NULL
+);

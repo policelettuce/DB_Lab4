@@ -1,0 +1,16 @@
+Hidden Camera
+NV Camera
+Wide-angle Camera
+Zoom Camera
+On-Person Camera
+Hidden Microphone
+Omnidirectional Microphone
+Bidirectional Microphone
+On-Person Microphone
+Stage Light
+Sun Light
+Moon Light
+Night Sky Light
+Indoors Light
+Hidden audio
+Ambient audio

@@ -1,0 +1,18 @@
+Bartender
+Bar waiter
+Bar cook
+Cafe waiter
+Cafe cook
+Salesman
+Store watchman
+Cashier
+Neighbour
+Newsboy
+Janitor
+Office janitor
+Office manager
+Truemans phone client
+Nurse
+Medic
+Psychologist
+Office worker

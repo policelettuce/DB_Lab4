@@ -1,0 +1,7 @@
+Screenwriter
+Producer
+Operator
+Sound engineer
+Lights engineer
+Set controller
+Decorator

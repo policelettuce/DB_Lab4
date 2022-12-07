@@ -1,0 +1,4 @@
+Auto
+ON
+OFF
+Silent mode

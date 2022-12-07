@@ -1,0 +1,47 @@
+Trumans school friend
+Trumans baseball teammate
+Trumans university friend
+Trumans colleague
+Trumans boss
+Trumans father
+Trumans mother
+Trumans wife
+Bartender
+Bar waiter
+Bar cook
+Cafe waiter
+Cafe cook
+Salesman
+Store watchman
+Cashier
+Neighbour
+Newsboy
+Janitor
+Office janitor
+Office manager
+Truemans phone client
+Nurse
+Medic
+Psychologist
+Office worker
+Firefighter
+FEMA worker
+Policeman
+Paramedic
+Pedestrian
+Driver
+Costumier
+Visagiste
+Logistician
+Courier
+Loader
+Plumber
+Electrician
+Off-scene janitor
+Screenwriter
+Producer
+Operator
+Sound engineer
+Lights engineer
+Set controller
+Decorator
