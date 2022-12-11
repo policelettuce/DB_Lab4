@@ -19,12 +19,12 @@ def random_date(start, end):                #возвращает случайн
 
 def createLocationInsertFile():
     location_data_name = open("RAW_DATA/Location_Name.txt", 'r', encoding="utf-8").read().splitlines()
-    string = "INSERT INTO s311759.Location (name, is_truman_here) VALUES "
+    string = "INSERT INTO s311759.Location (name) VALUES "
     for i in range(0, len(location_data_name)):
         if i == 2:
-            substring = "('" + location_data_name[i] + "', true)"
+            substring = "('" + location_data_name[i] + "')"
         else:
-            substring = "('" + location_data_name[i] + "', false)"
+            substring = "('" + location_data_name[i] + "')"
         if i != len(location_data_name) - 1:
             substring += ", "
         string += substring
@@ -226,9 +226,7 @@ def createJobInsertFile():
 
 
 def createHuman_employmentInsertFile(human_amount, job_title_amount, humans_fired):
-    string = "INSERT INTO s311759.Human_employment (human_id, job_id, workday_start, workday_end, contract_start, contract_end) VALUES "
-    workday_start = ["6:00:00", "8:00:00", "12:00:00", "16:00:00", "20:00:00", "0:00:00"]
-    workday_end = ["14:00:00", "16:00:00", "20:00:00", "0:00:00", "4:00:00", "8:00:00"]
+    string = "INSERT INTO s311759.Human_employment (human_id, job_id, contract_start, contract_end) VALUES "
     contract_duration = [1, 2, 3, 5]
     today_date = datetime.date(year=2022, month=11, day=27)
     amount_of_contracts = 0
@@ -242,9 +240,8 @@ def createHuman_employmentInsertFile(human_amount, job_title_amount, humans_fire
             if (i in humans_fired) and (next_date > today_date):
                 temp_date = next_date
             else:
-                wd = random.randrange(0, 5)
                 if random.randrange(1, 20) == 7: human_job = random.randrange(1, job_title_amount) #цыганские фокусы, шанс 5% что чел сменит работу на этот контракт
-                substring = "(" + str(i) + ", " + str(human_job) + ", '" + workday_start[wd] + "', '" + workday_end[wd] + "', '" + str(temp_date) + "', '" + str(next_date) + "')"
+                substring = "(" + str(i) + ", " + str(human_job) + ", '" + str(temp_date) + "', '" + str(next_date) + "')"
                 temp_date = next_date
                 if i != human_amount or temp_date <= today_date:
                     substring += ", "

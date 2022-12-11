@@ -62,10 +62,9 @@ CREATE TABLE s311759.Human_employment(
 	id SERIAL PRIMARY KEY, 
 	human_id INTEGER REFERENCES s311759.Human NOT NULL, 
 	job_id INTEGER REFERENCES s311759.Job NOT NULL, 
-	workday_start TIME NOT NULL, 
-	workday_end TIME NOT NULL, 
 	contract_start DATE NOT NULL, 
-	contract_end DATE NOT NULL
+	contract_end DATE NOT NULL,
+	CONSTRAINT valid_contract_dates CHECK (contract_end > contract_start)
 );
 CREATE TABLE s311759.Scenario(
 	id SERIAL PRIMARY KEY, 
