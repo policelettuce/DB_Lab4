@@ -79,3 +79,22 @@ def createCameras_on_LocationsInsertFile(locations_amount, cams_amt_on_loc):
     stream = open("INSERTS/Insert_Camsonlocs.txt", 'w')
     stream.write(string)
     return
+
+
+def createRoutes_of_actorsInsertFile(amount_of_routes, actors):
+    string = "INSERT INTO s311759.Routes_of_actors (route_id, actor_id) VALUES "
+    whatever = 0
+    for i in range(0, len(actors)):
+        rng = random.randrange(1, 7)
+        for j in range(0, rng):
+            substring = "(" + str(random.randrange(1, amount_of_routes)) + ", " + str(actors[i]) + ")"
+            if i != len(actors) - 1 or j != rng - 1:
+                substring += ", "
+            string += substring
+            whatever += 1
+
+
+    string += ";"
+    stream = open("INSERTS/Insert_Routes_of_actors.txt", 'w')
+    stream.write(string)
+    return

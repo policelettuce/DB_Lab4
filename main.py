@@ -277,25 +277,6 @@ def createActor_routeInsertFile():
     return amount_of_routes
 
 
-def createRoutes_of_actorsInsertFile(amount_of_routes, actors):
-    string = "INSERT INTO s311759.Routes_of_actors (route_id, actor_id) VALUES "
-    whatever = 0
-    for i in range(0, len(actors)):
-        rng = random.randrange(1, 7)
-        for j in range(0, rng):
-            substring = "(" + str(random.randrange(1, amount_of_routes)) + ", " + str(actors[i]) + ")"
-            if i != len(actors) - 1 or j != rng - 1:
-                substring += ", "
-            string += substring
-            whatever += 1
-
-
-    string += ";"
-    stream = open("INSERTS/Insert_Routes_of_actors.txt", 'w')
-    stream.write(string)
-    return
-
-
 def createScenario_stateInsertFile():
     string = "INSERT INTO s311759.Scenario_state (time_start, time_finish, is_executed, is_edited_on_air) VALUES "
     final_date = datetime.datetime(year=2022, month=11, day=27)
@@ -375,14 +356,19 @@ def createScenario_scheduleInsertFile(approved_scenarios_amount, amount_of_all_s
     return
 
 
-def createJobs_in_scenarioInsertFile(amount_of_all_scenarios, humans_working, actors_to_job):
-    string = "INSERT INTO s311759.Jobs_in_scenario (scenario_id, job_id, human_id, description) VALUES "
+def createJobs_in_scenarioInsertFile(amount_of_all_scenarios, humans_working, actors_to_job, amount_of_routes):
+    string = "INSERT INTO s311759.Jobs_in_scenario (scenario_id, job_id, human_id, route_id, description) VALUES "
     decsriptions = open("RAW_DATA/DESCRIPTIONS.txt", 'r', encoding="utf-8").read().splitlines()
     for i in range(1, amount_of_all_scenarios + 1):
         rng = random.randrange(20, 120)
         for j in range(1, rng):
             random_dude_id = random.choice(humans_working)
-            substring = "(" + str(i) + ", " + str(actors_to_job[random_dude_id]) + ", " + str(random_dude_id) + ", '" + str(random.choice(decsriptions)) + "')"
+            rng_is_there_a_route = random.randrange(1, 10)
+            if rng_is_there_a_route > 1:
+                route_id = str(random.randrange(1, amount_of_routes)) + ", '"
+            else:
+                route_id = "NULL, '"
+            substring = "(" + str(i) + ", " + str(actors_to_job[random_dude_id]) + ", " + str(random_dude_id) + ", " + route_id + str(random.choice(decsriptions)) + "')"
             if i != amount_of_all_scenarios or j != rng - 1:
                 substring += ", "
             string += substring
@@ -405,7 +391,6 @@ def createFullInsertFile():             #скомкать все инсерты 
     string += open("INSERTS/Insert_Job.txt", 'r', encoding="utf-8").read()
     string += open("INSERTS/Insert_Human_employment.txt", 'r', encoding="utf-8").read()
     string += open("INSERTS/Insert_Actor_route.txt", 'r', encoding="utf-8").read()
-    string += open("INSERTS/Insert_Routes_of_actors.txt", 'r', encoding="utf-8").read()
     string += open("INSERTS/Insert_Scenario_state.txt", 'r', encoding="utf-8").read()
     string += open("INSERTS/Insert_Scenario.txt", 'r', encoding="utf-8").read()
     string += open("INSERTS/Insert_Scenario_schedule.txt", 'r', encoding="utf-8").read()
@@ -440,7 +425,6 @@ def main():
     print("Amount of contracts: ", amount_of_contracts)
     amount_of_routes = createActor_routeInsertFile()
     print("Amount of routes: ", amount_of_routes)
-    createRoutes_of_actorsInsertFile(amount_of_routes, actors)
 
     amount_of_scenario_states, amount_of_future_scenario_states = createScenario_stateInsertFile()
     print("Amount of scenario states: ", amount_of_scenario_states)
@@ -448,7 +432,7 @@ def main():
     print("Total scenarios: ", approved_scenarios_amount + unapproved_scenarios_amount, " approved: ", approved_scenarios_amount, " unapproved: ", unapproved_scenarios_amount)
 
     createScenario_scheduleInsertFile(approved_scenarios_amount, amount_of_scenario_states + amount_of_future_scenario_states)
-    createJobs_in_scenarioInsertFile(approved_scenarios_amount + unapproved_scenarios_amount, humans_working, actors_to_job)
+    createJobs_in_scenarioInsertFile(approved_scenarios_amount + unapproved_scenarios_amount, humans_working, actors_to_job, amount_of_routes)
 
     createFullInsertFile()
 
